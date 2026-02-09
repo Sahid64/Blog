@@ -1,43 +1,19 @@
-import { getTweet } from 'react-tweet/api';
-import { Suspense } from 'react';
-import {
-  TweetSkeleton,
-  EmbeddedTweet,
-  TweetNotFound,
-  type TweetProps,
-} from 'react-tweet';
 import './tweet.css';
 
-const TweetContent = async ({ id, components, onError }: TweetProps) => {
-  let error;
-  const tweet = id
-    ? await getTweet(id).catch((err) => {
-        if (onError) {
-          error = onError(err);
-        } else {
-          console.error(err);
-          error = err;
-        }
-      })
-    : undefined;
-
-  if (!tweet) {
-    const NotFound = components?.TweetNotFound || TweetNotFound;
-    return <NotFound error={error} />;
-  }
-
-  return <EmbeddedTweet tweet={tweet} components={components} />;
-};
-
-export const ReactTweet = (props: TweetProps) => <TweetContent {...props} />;
-
-export async function TweetComponent({ id }: { id: string }) {
+// Server-safe fallback for tweets: render a simple link to the tweet.
+export function TweetComponent({ id }: { id: string }) {
+  const url = `https://twitter.com/i/web/status/${id}`;
   return (
     <div className="tweet my-6">
-      <div className={`flex justify-center`}>
-        {/* <Suspense fallback={<TweetSkeleton />}> */}
-        <ReactTweet id={id} />
-        {/* </Suspense> */}
+      <div className="flex justify-center">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-blue-600 hover:underline"
+        >
+          View tweet
+        </a>
       </div>
     </div>
   );

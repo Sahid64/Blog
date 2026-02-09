@@ -62,6 +62,34 @@ export default async function Blog({ params }) {
   if (!post) {
     notFound();
   }
+  function escapeHtml(unsafe: string) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function renderSimpleMDX(text: string) {
+    return text
+      .split(/\r?\n/)
+      .map((line) => {
+        if (line.startsWith("## ")) {
+          return `<h2 class="text-3xl font-semibold mt-6 mb-4">${escapeHtml(
+            line.slice(3)
+          )}</h2>`;
+        }
+        if (line.startsWith("# ")) {
+          return `<h1 class="text-4xl font-bold mt-6 mb-4">${escapeHtml(
+            line.slice(2)
+          )}</h1>`;
+        }
+        if (line.trim() === "") return "";
+        return `<p>${escapeHtml(line)}</p>`;
+      })
+      .join("\n");
+  }
 
   return (
     <section>
@@ -96,7 +124,10 @@ export default async function Blog({ params }) {
         </p>
       </div>
       <article className="prose prose-quoteless prose-neutral dark:prose-invert">
-        <CustomMDX source={post.content} />
+        <div
+          className="prose-lg"
+          dangerouslySetInnerHTML={{ __html: renderSimpleMDX(post.content) }}
+        />
       </article>
     </section>
   );

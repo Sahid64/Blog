@@ -10,7 +10,7 @@ import { ThemeProvider } from "./components/theme-switch";
 import { metaData } from "./config";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(metaData.baseUrl),
+  metadataBase: metaData.baseUrl ? new URL(metaData.baseUrl) : undefined,
   title: {
     default: metaData.title,
     template: `%s | ${metaData.title}`,

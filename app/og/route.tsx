@@ -2,8 +2,15 @@ import { ImageResponse } from "next/og";
 import { metaData } from "app/config";
 
 export function GET(request: Request) {
-  let url = new URL(request.url);
-  let title = url.searchParams.get("title") || metaData.title;
+  let title = metaData.title;
+  try {
+    if (request.url) {
+      const url = new URL(request.url);
+      title = url.searchParams.get("title") || title;
+    }
+  } catch (e) {
+    // ignore and use default title
+  }
 
   return new ImageResponse(
     (
