@@ -4,7 +4,7 @@ import { projects } from "./project-data";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: "Eduardo Yair Hernández Escobedo Projects",
+  description: "",
 };
 
 export default function Projects() {

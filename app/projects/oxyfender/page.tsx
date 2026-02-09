@@ -330,7 +330,7 @@ pygame.quit()
       <div className="text-sm text-neutral-600 dark:text-neutral-400">
         <p>
           <Link
-            href="https://github.com/Eduardo Yair Hernández Escobedo/OxyFender"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-black dark:hover:text-white transition-colors"
