@@ -10,8 +10,8 @@ export const projects: Project[] = [
   {
     title: "",
     year: 2024,
-    description: "Educational game developed in Python using Pygame. This project is designed to raise awareness about the importance of climate restoration and oxygen preservation on our planet.",
-    url: "/projects/oxyfender",
+    description: "",
+    url: "",
     img: 'project-oxyfender.png'
   },
 

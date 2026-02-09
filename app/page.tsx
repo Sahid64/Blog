@@ -19,7 +19,7 @@ export default function Page() {
 			</h1>
 			<div className='prose prose-neutral dark:prose-invert'>
 				<p>
-					Blog
+					Blog del Grupo de Software 2024-2028
 				</p>
 				<h2 className='mt-8 text-xl font-medium tracking-tight'>
 					
