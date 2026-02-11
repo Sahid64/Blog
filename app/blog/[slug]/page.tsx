@@ -4,8 +4,6 @@ import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/lib/posts";
 import { metaData } from "app/config";
 
-//export const dynamic = 'force-dynamic'; //Algo que puse y no se
-
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
@@ -13,29 +11,6 @@ export async function generateStaticParams() {
     slug: post.slug,
   }));
 }
-/* No funciono, lo dio deepseek
-export async function generateStaticParams() {
-  // ✅ 1. Agrega try-catch
-  try {
-    let posts = getBlogPosts();
-    
-    // ✅ 2. Verifica que posts existe
-    if (!posts) {
-      return []; // Array vacío en lugar de error
-    }
-    
-    return posts
-      .filter(post => post && post.slug) // ✅ 3. Filtra posts válidos
-      .map((post) => ({
-        slug: post.slug,
-      }));
-      
-  } catch (error) {
-    // ✅ 4. Captura cualquier error
-    return []; // 🟢 SIEMPRE retorna array vacío
-  }
-}
-*/
 
 export async function generateMetadata({
   params,

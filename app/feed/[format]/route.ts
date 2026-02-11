@@ -3,8 +3,6 @@ import { getBlogPosts } from "app/lib/posts";
 import { metaData } from "app/config";
 import { NextResponse } from "next/server";
 
-export const dynamic = 'force-dynamic'; //Algo que puse y no se
-
 export async function generateStaticParams() {
   return [
     { format: "rss.xml" },
@@ -47,7 +45,7 @@ export async function GET(
     },
   });
 
-  const allPosts = getBlogPosts().filter(post => post.slug !== 'valeria');
+  const allPosts = await getBlogPosts().filter(post => post.slug !== 'valeria');
   allPosts.forEach((post) => {
     const postUrl = `${BaseUrl}blog/${post.slug}`;
     const categories = post.metadata.tags
