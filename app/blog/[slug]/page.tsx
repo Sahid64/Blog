@@ -5,11 +5,25 @@ import { formatDate, getBlogPosts } from "app/lib/posts";
 import { metaData } from "app/config";
 
 export async function generateStaticParams() {
-  let posts = getBlogPosts();
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+  // ✅ 1. Agrega try-catch
+  try {
+    let posts = getBlogPosts();
+    
+    // ✅ 2. Verifica que posts existe
+    if (!posts) {
+      return []; // Array vacío en lugar de error
+    }
+    
+    return posts
+      .filter(post => post && post.slug) // ✅ 3. Filtra posts válidos
+      .map((post) => ({
+        slug: post.slug,
+      }));
+      
+  } catch (error) {
+    // ✅ 4. Captura cualquier error
+    return []; // 🟢 SIEMPRE retorna array vacío
+  }
 }
 
 export async function generateMetadata({
