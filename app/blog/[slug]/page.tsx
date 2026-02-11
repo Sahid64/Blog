@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/lib/posts";
 import { metaData } from "app/config";
-
+/*
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
   return posts.map((post) => ({
     slug: post.slug,
   }));
-}
+}*/
 /* No funciono, lo dio deepseek
 export async function generateStaticParams() {
   // ✅ 1. Agrega try-catch
