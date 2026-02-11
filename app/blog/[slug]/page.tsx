@@ -5,6 +5,14 @@ import { formatDate, getBlogPosts } from "app/lib/posts";
 import { metaData } from "app/config";
 
 export async function generateStaticParams() {
+  let posts = getBlogPosts();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+/* No funciono, lo dio deepseek
+export async function generateStaticParams() {
   // ✅ 1. Agrega try-catch
   try {
     let posts = getBlogPosts();
@@ -25,6 +33,7 @@ export async function generateStaticParams() {
     return []; // 🟢 SIEMPRE retorna array vacío
   }
 }
+*/
 
 export async function generateMetadata({
   params,
