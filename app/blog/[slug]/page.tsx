@@ -4,6 +4,8 @@ import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/lib/posts";
 import { metaData } from "app/config";
 
+//export const dynamic = 'force-dynamic'; //Algo que puse y no se
+
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
