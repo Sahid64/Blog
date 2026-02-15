@@ -19,7 +19,6 @@ function parseFrontmatter(fileContent: string) {
         title: "",
         publishedAt: "",
         summary: "",
-        tags: "",
       } as Metadata,
       content: fileContent.trim(),
     };
