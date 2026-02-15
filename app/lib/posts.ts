@@ -12,19 +12,7 @@ type Metadata = {
 function parseFrontmatter(fileContent: string) {
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
-  if (!match) {
-    console.warn("Archivo sin frontmatter válido detectado.");
-    return {
-      metadata: {
-        title: "",
-        publishedAt: "",
-        summary: "",
-        tags: "",
-      } as Metadata,
-      content: fileContent.trim(),
-    };
-  }
-  let frontMatterBlock = match[1];
+  let frontMatterBlock = match![1];
   let content = fileContent.replace(frontmatterRegex, "").trim();
   let frontMatterLines = frontMatterBlock.trim().split("\n");
   let metadata: Partial<Metadata> = {};
@@ -32,7 +20,7 @@ function parseFrontmatter(fileContent: string) {
   frontMatterLines.forEach((line) => {
     let [key, ...valueArr] = line.split(": ");
     let value = valueArr.join(": ").trim();
-    value = value.replace(/^['"](.*)['"]$/, "$1");
+    value = value.replace(/^['"](.*)['"]$/, "$1"); 
     metadata[key.trim() as keyof Metadata] = value;
   });
 
@@ -53,33 +41,16 @@ function readMDXFile(filePath: string) {
 
 function getMDXData(dir: string) {
   let mdxFiles = getMDXFiles(dir);
+  return mdxFiles.map((file) => {
+    let { metadata, content } = readMDXFile(path.join(dir, file));
+    let slug = path.basename(file, path.extname(file));
 
-  return mdxFiles
-    .map((file) => {
-      let filePath = path.join(dir, file);
-      let rawContent = fs.readFileSync(filePath, "utf-8");
-
-      let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
-      let match = frontmatterRegex.exec(rawContent);
-
-      if (!match) {
-        console.warn("Ignorando archivo sin frontmatter:", file);
-        return null;
-      }
-
-      let { metadata, content } = parseFrontmatter(rawContent);
-      let slug = path.basename(file, path.extname(file));
-
-      return {
-        metadata,
-        slug,
-        content,
-      };
-    })
-    .filter(
-      (post): post is { metadata: Metadata; slug: string; content: string } =>
-        post !== null
-    );
+    return {
+      metadata,
+      slug,
+      content,
+    };
+  });
 }
 
 export function getBlogPosts() {
