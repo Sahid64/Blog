@@ -19,6 +19,7 @@ function parseFrontmatter(fileContent: string) {
         title: "",
         publishedAt: "",
         summary: "",
+        tags: "",
       } as Metadata,
       content: fileContent.trim(),
     };
@@ -52,16 +53,30 @@ function readMDXFile(filePath: string) {
 
 function getMDXData(dir: string) {
   let mdxFiles = getMDXFiles(dir);
-  return mdxFiles.map((file) => {
-    let { metadata, content } = readMDXFile(path.join(dir, file));
-    let slug = path.basename(file, path.extname(file));
 
-    return {
-      metadata,
-      slug,
-      content,
-    };
-  });
+  return mdxFiles
+    .map((file) => {
+      let filePath = path.join(dir, file);
+      let rawContent = fs.readFileSync(filePath, "utf-8");
+
+      let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
+      let match = frontmatterRegex.exec(rawContent);
+
+      if (!match) {
+        console.warn("Ignorando archivo sin frontmatter:", file);
+        return null;
+      }
+
+      let { metadata, content } = parseFrontmatter(rawContent);
+      let slug = path.basename(file, path.extname(file));
+
+      return {
+        metadata,
+        slug,
+        content,
+      };
+    })
+    .filter(Boolean);
 }
 
 export function getBlogPosts() {
