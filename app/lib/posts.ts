@@ -76,7 +76,10 @@ function getMDXData(dir: string) {
         content,
       };
     })
-    .filter(Boolean);
+    .filter(
+      (post): post is { metadata: Metadata; slug: string; content: string } =>
+        post !== null
+    );
 }
 
 export function getBlogPosts() {
