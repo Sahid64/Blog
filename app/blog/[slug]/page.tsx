@@ -124,10 +124,7 @@ export default async function Blog({ params }) {
         </p>
       </div>
       <article className="prose prose-quoteless prose-neutral dark:prose-invert">
-        <div
-          className="prose-lg"
-          dangerouslySetInnerHTML={{ __html: renderSimpleMDX(post.content) }}
-        />
+        <CustomMDX source={post.content} />
       </article>
     </section>
   );
